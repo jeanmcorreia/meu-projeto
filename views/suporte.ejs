@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <!-- <style>
+        .error { color: #b00020; font-size: 0.95em; margin-top: 4px; }
+        .field { margin-bottom: 1rem; }
+        .field input[type='text'],
+        .field input[type='email'],
+        .field input[type='email'],
+    </style> -->
+</head>
+<body>
+
+    <h1><%= title %></h1>
+
+    <form action="/suporte" method="post" novalidate>
+        <fieldset>
+            <legend>Solicitação de Suporte Técnico</legend>
+
+            <!-- Nome -->
+            <label for="nome">Nome *</label><br />
+            <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required value="<%= data.nome || '' %>" minlength="3" maxlength="60">
+            <% if (errors.nome) { %><div class="error"><%= errors.nome.msg %> </div><% } %>
+
+            <!-- E-mail -->
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" value="<%= data.email || '' %>" placeholder="seuemail@exemplo.com" required />
+            <% if (errors.email) { %><div class="error"><%= errors.email.msg %></div><% } %>
+
+            <!-- Tipo de problema -->
+            <label for="tipo">Tipo de problema:</label>
+            <select id="tipo" name="tipo" required>
+            <optgroup label="Software">
+                <option value="instalacao" <%= (data.tipo === 'instalacao' ? 'selected' : '') %>>Erro na instalação</option>
+                <option value="atualizacao" <%= (data.tipo === 'atualizacao' ? 'selected' : '') %>>Falha na atualização</option>
+            </optgroup>
+            <optgroup label="Hardware">
+                <option value="conexao" <%= (data.tipo === 'conexao' ? 'selected' : '') %>>Problema de conexão</option>
+                <option value="desempenho" <%= (data.tipo === 'desempenho' ? 'selected' : '') %>>Desempenho lento</option>
+            </optgroup>
+            </select>
+            <% if (errors.tipo) { %><div class="error"><%= errors.tipo.msg %></div><% } %>
+
+            <!-- Descrição -->
+            <label for="mensagem">Descreva o problema:</label>
+            <textarea id="mensagem" name="mensagem" rows="5" placeholder="Explique o que está acontecendo..." minlength="10" maxlength="500"><%=data.mensagem || '' %></textarea>
+            <% if (errors.mensagem) { %><div class="error"><%= errors.mensagem.msg %></div><% } %>
+
+            <!-- Ações -->
+            <button type="submit">Enviar solicitação</button>
+            <button type="reset">Limpar</button>
+        </fieldset>
+    </form>
+
+</body>
+</html>
