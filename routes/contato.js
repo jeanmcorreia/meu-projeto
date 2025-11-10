@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { body, validationResult } = require('express-validator');
-const db = require('.../db');
+const db = require('../db');
 
 /**
  * GET /contato – exibe o formulário.
@@ -74,7 +74,7 @@ router.post('/',
 
     const stmt = db.prepare(`
         INSERT INTO contatos (nome, email, idade, genero, interesses, mensagem, aceite)
-        VALUES (@nome, @email, @genero, @interesses, @mensagem, @aceite)
+        VALUES (@nome, @email, @idade, @genero, @interesses, @mensagem, @aceite)
     `);
     
     stmt.run({
