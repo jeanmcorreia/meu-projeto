@@ -68,7 +68,10 @@
                     <td><%= c.mensagem %></td>
                     <td><%= c.criado_em %></td>
                     <td class="actions">
-                        <form action="/contato/<%= c.id %>/delete" method="post" onsubmit="return confirm ('Tem certeza que deseja excluir o contato de <%= c.nome %>?');">
+                        <form action="/contato/<%= c.id %>/edit" method="get" onsubmit="return confirm ('Tem certeza que deseja atualizar o contato de <%= c.nome %>?');">
+                            <button type="submit">Editar</button>
+                        </form>
+                        <form action="/contato/<%= c.id %>/delete" method="post" onsubmit="return confirm('Tem certeza que deseja excluir o contato de <%= c.nome %>?');">
                             <button type="submit">Excluir</button>
                         </form>
                     </td>
