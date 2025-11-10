@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { body, validationResult } = require('express-validator');
+const db = require('.../db');
 
 /**
  * GET /contato – exibe o formulário.
@@ -71,6 +72,23 @@ router.post('/',
       });
     }
 
+    const stmt = db.prepare(`
+        INSERT INTO contatos (nome, email, idade, genero, interesses, mensagem, aceite)
+        VALUES (@nome, @email, @genero, @interesses, @mensagem, @aceite)
+    `);
+    
+    stmt.run({
+      nome: data.nome,
+      email: data.email,
+      idade: data.idade || null,
+      genero: data.genero || null,
+      interesses: Array.isArray(data.interesses)
+        ? data.interesses.join(',')
+        : (data.interesses || ''),
+      mensagem: data.mensagem,
+      aceite: data.aceite ? 1 : 0
+    });
+
     // Aqui você poderia persistir no banco, enviar e-mail, etc.
 
     return res.render('sucesso', {
@@ -79,5 +97,36 @@ router.post('/',
     });
   }
 );
+
+// GET /contato/lista - tabela com os contatos cadastrados
+router.get('/lista', (req, res) => {
+  const rows = db.prepare(`
+    SELECT id, nome, email, idade, interesses, mensagem, criado_em
+    FROM contatos
+    ORDER BY criado_em DESC
+  `).all();
+
+  res.render('contatos-lista', {
+    title: 'Lista de Contatos',
+    contatos: rows
+  });
+});
+
+// POST /contato/:id/delete - Exclui contato pelo ID
+router.post('/:id/delete', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+
+  if (Number.isNaN(id)) {
+    // ID inválido - só volta
+    return res.redirect('/contato/lista');
+  }
+
+  const info = db.prepare('DELETE FROM contatos WHERE id = ?').run(id);
+
+  // Opcional: testar se algo foi deletado
+  if (info.changes == 0) { console.log('Nenhum registro com esse ID'); }
+
+  return res.redirect('/contato/lista');
+});
 
 module.exports = router;
