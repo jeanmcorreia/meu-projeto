@@ -131,7 +131,7 @@ router.post('/:id/delete', (req, res) => {
   return res.redirect('/contato/lista');
 });
 
-// GET /contato/:id/edit - retorna lista de contatos para editar
+// GET /contato/:id/edit - exibe o formulário de edição.
 router.get('/:id/edit', (req, res) => {
   const id = parseInt(req.params.id, 10);
   
@@ -164,6 +164,8 @@ router.get('/:id/edit', (req, res) => {
   });
 });
 
+
+// POST /contato/:id/delete - Atualiza contato pelo ID
 router.post('/:id/update', contatoValidators, (req, res) => {
   const id = parseInt(req.params.id, 10);
 

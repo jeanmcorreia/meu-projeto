@@ -31,7 +31,9 @@
 </head>
 <body>
     <h1><%= title %></h1>
-    <p><a href="/contato">Novo contato</a> | <a href="/">Home</a></p>
+    <nav>
+        <p><a href="/contato">Novo Contato</a> | <a href="/">Home</a></p>
+    </nav>
 
     <% if (!contatos || contatos.length === 0) { %>
         <p>Nenhum contato cadastrado ainda.</p>
