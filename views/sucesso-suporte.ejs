@@ -12,10 +12,10 @@
 
     <h2>Resumo solicitação</h2>
     <ul>
-        <li><strong>Nome:</strong><%= data.nome %></li>
-        <li><strong>Email:</strong><%= data.email %></li>
+        <li><strong>Nome:</strong> <%= data.nome %> </li>
+        <li><strong>Email:</strong> <%= data.email %> </li>
        <% if (data.tipo) { %><li><strong>Tipo do problema:</strong> <%= data.tipo %></li><% } %>
-       <li><strong>Mensagem:</strong> <%= data.mensagem %></li>
+       <li><strong>Mensagem:</strong> <%= data.mensagem %> </li>
     </ul>
 
     <p><a href="/suporte">Solicitar outro suporte</a> | <a href="/">Voltar à Home</a></p>
