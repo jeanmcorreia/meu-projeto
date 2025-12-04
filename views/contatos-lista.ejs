@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,17 +62,15 @@
                     <td><%= c.genero || '-' %></td>
                     <td>
                         <% if (c.interesses) { %>
-                            <%= c.interesses.split(',').join(', ') %>
+                            <%= c.interesses.join(', ') %>
                         <% } else { %> 
                             -
                         <% } %>
                     </td>
                     <td><%= c.mensagem %></td>
-                    <td><%= c.criado_em %></td>
+                    <td><%= new Date(c.criadoEm).toLocaleString('pt-BR') %></td>
                     <td class="actions">
-                        <form action="/contato/<%= c.id %>/edit" method="get" onsubmit="return confirm ('Tem certeza que deseja atualizar o contato de <%= c.nome %>?');">
-                            <button type="submit">Editar</button>
-                        </form>
+                        <a href="/contato/<%= c.id %>/editar">Editar</a>
                         <form action="/contato/<%= c.id %>/delete" method="post" onsubmit="return confirm('Tem certeza que deseja excluir o contato de <%= c.nome %>?');">
                             <button type="submit">Excluir</button>
                         </form>

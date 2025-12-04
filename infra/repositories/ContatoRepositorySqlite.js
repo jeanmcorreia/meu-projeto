@@ -1,5 +1,4 @@
 const ContatoRepository = require('../../domain/ports/ContatoRepository');
-
 const Contato = require('../../domain/entities/Contato');
 
 class ContatoRepositorySqlite extends ContatoRepository {

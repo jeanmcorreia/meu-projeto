@@ -1,13 +1,21 @@
-const { createSqliteDb } = require('../infra/db/sqliteFactory');
-const ContatoRepositorySqlite = require('../infra/repositories/ContatoRepositorySqlite');
-const ContatoService = require('../application/services/ContatoServices')
+const { createSequelizeInstance } = require('../infra/db/sequelize');
+const { defineContatoModel } = require('../infra/db/models/ContatoModel');
+const ContatoRepositorySequelize = require('../infra/repositories/ContatoRepositorySequelize');
+const ContatoService = require('../application/services/ContatoServices');
 
-const db = createSqliteDb(process.env.TEST_DB_PATH || undefined); // data/contatos.db
-const contatoRepository = new ContatoRepositorySqlite(db);
-const contatoService = new ContatoService(contatoRepository);
+const sequelize = createSequelizeInstance();
+const ContatoModel = defineContatoModel(sequelize);
 
-module.exports = {
-    db,
-    contatoRepository,
-    contatoService
-};
+sequelize.sync()
+    .then(() => console.log('Banco sincronizado com Sequelize (ORM).'))
+    .catch(err => console.error('Erro ao sincronizar banco:', err));
+
+    const contatoRepository = new ContatoRepositorySequelize(ContatoModel);
+    const contatoService = new ContatoService(contatoRepository);
+
+    module.exports = {
+        sequelize,
+        ContatoModel,
+        contatoRepository,
+        contatoService
+    };

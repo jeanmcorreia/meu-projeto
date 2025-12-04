@@ -74,7 +74,7 @@ class ContatoController {
     _payload(body) {
         return {
             nome: body.nome,
-            email: body.name,
+            email: body.email,
             idade: body.idade || null,
             genero: body.genero || '',
             interesses: body.interesses || [],
