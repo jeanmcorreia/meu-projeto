@@ -9,8 +9,11 @@ var usersRouter = require('./routes/users');
 var aboutRouter = require('./routes/about');
 var contatoRouter = require('./routes/contato');
 var suporteRouter = require('./routes/suporte');
+const errorHandler = require('./middlewares/errorHandler');
 
 var app = express();
+
+app.use(errorHandler);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

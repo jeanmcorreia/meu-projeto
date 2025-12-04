@@ -17,6 +17,8 @@ function createSqliteDb(dbFilePath = null) {
 
     const dbPath = dbFilePath || path.join(baseDir, 'contatos.db');
 
+    const db = new Database(dbPath);
+
     ensureMigrations(db);
 
     return db;

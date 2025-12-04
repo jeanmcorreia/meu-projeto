@@ -31,6 +31,57 @@ class ContatoController {
     }
 
     async criar(req, res) {
-        pass
+        if (req.validationMapped) {
+            return res.status(400).render('contato', {
+                title: 'Formulário de Contato',
+                data: this._payload(req.body),
+                errors: req.validationMapped
+            });
+        }
+        const contato = await this.service.criar(this._payload(req.body));
+        
+        return res.render('sucesso', {title: 'Enviado com sucesso', data: contato });
+    }
+
+    async lista(req, res) {
+        const contatos = await this.service.listar();
+        res.render('contatos-lista', { title: 'Lista de Contatos', contatos });
+    }
+
+    async editarForm(req, res) {
+        const id = Number(req.params.id);
+        const contato = await this.service.obter(id)
+        if(!contato) return res.redirect('/contato/lista');
+        res.render('contato-editar', { title: 'Editar Contato', data: contato, errors: {} });
+    }
+
+    async editar(req, res) {
+        const id = Number(req.params.id);
+        if(req.validationMapped) {
+            const data = this._payload(req.body); data.id = id;
+            return res.status(400).render('contato-editar', { title: 'Editar Contato', data, errors: req.validationMapped });
+        }
+        await this.service.atualizar(id, this._payload(req.body));
+        return res.redirect('/contato/lista');
+    }
+
+    async excluir(req, res) {
+        const id = Number(req.params.id);
+        await this.service.excluir(id);
+        res.redirect('/contato/lista');
+    }
+
+    _payload(body) {
+        return {
+            nome: body.nome,
+            email: body.name,
+            idade: body.idade || null,
+            genero: body.genero || '',
+            interesses: body.interesses || [],
+            mensagem: body.mensagem,
+            aceite: body.aceite === 'on'
+        };
     }
 }
+
+module.exports = ContatoController;
